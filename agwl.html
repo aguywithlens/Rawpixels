@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rawpixels | Portfolio</title>
+  <style>
+    /* Reset and Core Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #0b0b0b;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Minimalist Navigation Bar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 30px;
+      width: 100%;
+    }
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .menu-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      letter-spacing: 2px;
+      font-weight: bold;
+    }
+
+    /* Elegant Hero Introduction */
+    .hero {
+      padding: 80px 30px 100px 30px;
+      max-width: 900px;
+    }
+    .hero h1 {
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+      color: #a0a0a0;
+      text-transform: uppercase;
+    }
+    .hero p {
+      font-size: 1.6rem;
+      line-height: 1.7;
+      color: #ffffff;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+    }
+
+    /* Cinematic Portfolio Layout */
+    .gallery {
+      padding: 0 30px 120px 30px;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr; 
+      gap: 80px; /* Large space between photos for premium feel */
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .gallery-item {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: opacity 0.4s ease;
+    }
+    .gallery-item:hover {
+      opacity: 0.85;
+    }
+
+    /* Clean Footer Style */
+    footer {
+      padding: 80px 30px;
+      border-top: 1px solid #1a1a1a;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .footer-section h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #666666;
+      margin-bottom: 12px;
+    }
+    .footer-section a, .footer-section p {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 300;
+    }
+    
+    @media (min-width: 768px) {
+      footer {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="logo">Rawpixels</div>
+    <button class="menu-btn">MENU ☰</button>
+  </header>
+
+  <!-- Visual Storyteller Intro -->
+  <section class="hero">
+    <h1>Hi, I am Dipayan Majumder</h1>
+    <p>"I am a visual storyteller dedicated to capturing the intersection of culture, fashion, and emotion. My work is defined by high-contrast compositions and a deep exploration of color, aiming to turn fleeting moments into timeless, cinematic narratives."</p>
+  </section>
+
+  <!-- Premium Image Grid -->
+  <section class="gallery">
+    <div class="gallery-grid">
+      <img src="2009F17C-A7D9-4E69-AB57-61459636DA69.jpeg" alt="Photography 1" class="gallery-item">
+      <img src="2C5B835C-532F-4FCB-8B24-AD052ACC9F23.jpeg" alt="Photography 2" class="gallery-item">
+      <img src="3BDEDEF4-4C14-4BD4-81C6-D5E82EC8BE44.jpeg" alt="Photography 3" class="gallery-item">
+      <img src="5A952932-6341-4B6D-A6D3-DABED1BAF324.jpeg" alt="Photography 4" class="gallery-item">
+      <img src="D17CFC4C-1CC7-4B3E-AFDF-420422FA3B01.jpeg" alt="Photography 5" class="gallery-item">
+      <img src="E2F8E0D9-43BC-493C-8EE1-140C46A1CCD0.jpeg" alt="Photography 6" class="gallery-item">
+    </div>
+  </section>
+
+  <!-- Finished Footer Portfolio Details -->
+  <footer>
+    <div class="footer-section">
+      <h3>Contact</h3>
+      <a href="mailto:tinytalesproduction@gmail.com">tinytalesproduction@gmail.com</a>
+    </div>
+    <div class="footer-section">
+      <h3>Office</h3>
+      <p>Howrah, 711202</p>
+    </div>
+    <div class="footer-section">
+      <h3>Social</h3>
+      <a href="https://instagram.com/" target="_blank">Instagram</a>
+    </div>
+  </footer>
+
+</body>
+</html>
