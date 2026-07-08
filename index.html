@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rawpixels | Portfolio</title>
+  <style>
+    /* Reset and Core Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #ffffff; /* Premium pure white main screen */
+      color: #0b0b0b; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+    body.no-scroll {
+      overflow: hidden;
+    }
+
+    /* Netflix Cinematic Preloader Screen */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000; /* True cinematic black abyss */
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      transition: transform 0.9s cubic-bezier(0.88, 0, 0.12, 1);
+    }
+    
+    .netflix-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .netflix-bar {
+      width: 6px;
+      height: 0;
+      background: linear-gradient(to bottom, #fdf6e2, #db202c, #000000); 
+      animation: growth 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      box-shadow: 0 0 30px rgba(253, 246, 226, 0.4);
+    }
+
+    .netflix-title {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 2.2rem;
+      color: #fdf6e2; 
+      text-transform: uppercase;
+      letter-spacing: 24px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: scale(0.92);
+      margin-top: 15px;
+      animation: disperse 1.4s cubic-bezier(0.075, 0.82, 0.165, 1) 0.6s forwards;
+    }
+
+    @keyframes growth {
+      0% { height: 0; opacity: 0; }
+      50% { opacity: 1; }
+      100% { height: 90px; opacity: 1; }
+    }
+
+    @keyframes disperse {
+      0% { opacity: 0; letter-spacing: 24px; filter: blur(10px); transform: scale(0.92); }
+      70% { opacity: 1; filter: blur(0px); }
+      100% { opacity: 1; letter-spacing: 6px; transform: scale(1); }
+    }
+
+    /* Minimalist Navigation Bar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 30px;
+      width: 100%;
+      position: relative;
+      z-index: 1001;
+    }
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #0b0b0b;
+      transition: opacity 0.3s ease;
+    }
+    .menu-btn {
+      background: none;
+      border: none;
+      color: #0b0b0b;
+      font-size: 0.9rem;
+      cursor: pointer;
+      letter-spacing: 2px;
+      font-weight: bold;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .menu-btn:hover { opacity: 0.6; }
+
+    /* Fullscreen Menu Layout */
+    .fullscreen-menu {
+      position: fixed;
+      top: -100%; 
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff; 
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: top 0.7s cubic-bezier(0.85, 0, 0.15, 1); 
+    }
+    .fullscreen-menu.open { top: 0; }
+    .menu-links { list-style: none; text-align: center; width: 100%; padding: 0 20px; }
+    .menu-links li {
+      margin: 20px 0;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fullscreen-menu.open .menu-links li { opacity: 1; transform: translateY(0); }
+    .fullscreen-menu.open .menu-links li:nth-child(1) { transition-delay: 0.25s; }
+    .fullscreen-menu.open .menu-links li:nth-child(2) { transition-delay: 0.32s; }
+    .fullscreen-menu.open .menu-links li:nth-child(3) { transition-delay: 0.39s; }
+    .fullscreen-menu.open .menu-links li:nth-child(4) { transition-delay: 0.46s; }
+    .fullscreen-menu.open .menu-links li:nth-child(5) { transition-delay: 0.53s; }
+    .fullscreen-menu.open .menu-links li:nth-child(6) { transition-delay: 0.60s; }
+
+    .menu-links a {
+      color: #0b0b0b; 
+      text-decoration: none;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-family: "Times New Roman", Times, serif; 
+      display: inline-block;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .menu-links a:hover { opacity: 0.6; transform: scale(1.03); }
+
+    /* Elegant Hero Introduction */
+    .hero {
+      padding: 80px 30px 60px 30px;
+      max-width: 900px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+    }
+    .hero.loaded { opacity: 1; transform: translateY(0); }
+    .hero h1 {
+      font-size: 2.2rem; 
+      font-weight: 800;   
+      letter-spacing: -0.5px;
+      margin-bottom: 5px;
+      color: #0b0b0b;
+    }
+    .hero-subtitle {
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #707070;
+      margin-bottom: 30px;
+      display: block;
+    }
+    .hero p {
+      font-size: 1.6rem;
+      line-height: 1.7;
+      color: #4a4a4a; 
+      font-weight: 300;
+      letter-spacing: -0.5px;
+    }
+
+    /* --- Editorial Portfolio Layout Section --- */
+    .portfolio-header {
+      max-width: 1100px;
+      margin: 60px auto 20px auto;
+      padding: 0 30px;
+      text-align: center;
+    }
+    .portfolio-header h2 {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #0b0b0b;
+    }
+    .portfolio-header .divider {
+      width: 60px;
+      height: 1px;
+      background-color: #0b0b0b;
+      margin: 15px auto 40px auto;
+    }
+
+    .gallery {
+      padding: 0 30px 120px 30px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .lookbook-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 100px;
+    }
+    .lookbook-card {
+      width: 100%;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    /* Fallback display class */
+    .lookbook-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .lookbook-img-wrapper {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 2px;
+      position: relative;
+      background-color: #f7f7f7;
+    }
+    /* Elegant vertical layout framing */
+    .lookbook-img-wrapper::after {
+      content: "";
+      display: block;
+      padding-bottom: 125%;
+    }
+    .lookbook-card img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+    }
+    .lookbook-card:hover img {
+      transform: scale(1.04);
+      filter: brightness(0.95);
+    }
+    .lookbook-meta {
+      margin-top: 25px;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #888888;
+    }
+    .lookbook-title {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 8px;
+      color: #0b0b0b;
+    }
+    .lookbook-action {
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #0b0b0b;
+      margin-top: 12px;
+      display: inline-block;
+      font-weight: bold;
+      border-bottom: 1px solid #0b0b0b;
+      padding-bottom: 2px;
+    }
+
+    @media (min-width: 768px) {
+      .lookbook-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
+      }
+    }
+
+    /* --- Immersive Sub-Pages overlay --- */
+    .lookbook-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
+      z-index: 2000;
+      overflow-y: auto;
+      display: none;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 100px 30px;
+    }
+    .lookbook-page.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .page-close {
+      position: fixed;
+      top: 40px;
+      right: 40px;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 2100;
+      border: 1px solid #0b0b0b;
+      padding: 10px 20px;
+      background: #ffffff;
+      transition: background 0.3s, color 0.3s;
+    }
+    .page-close:hover {
+      background: #0b0b0b;
+      color: #ffffff;
+    }
+    .page-header {
+      max-width: 800px;
+      margin: 0 auto 80px auto;
+      text-align: center;
+    }
+    .page-header h2 {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 3rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 15px;
+    }
+    .page-header p {
+      font-size: 1.1rem;
+      color: #666666;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .sub-gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .sub-gallery-grid img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+    @media (min-width: 768px) {
+      .sub-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sub-gallery-grid img.wide {
+        grid-column: span 2;
+      }
+    }
+
+    /* Clean Footer Style */
+    footer {
+      padding: 100px 30px 140px 30px;
+      border-top: 1px solid #eaeaea;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .footer-section h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #888888;
+      margin-bottom: 12px;
+    }
+    .footer-section a, .footer-section p {
+      color: #0b0b0b;
+      text-decoration: none;
+      font-size: 1.2rem;
+      font-weight: 300;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    @media (min-width: 768px) {
+      footer { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Netflix Cinematic Intro Preloader -->
+  <div id="preloader">
+    <div class="netflix-container">
+      <div class="netflix-bar"></div>
+      <div class="netflix-title">aguywithlens</div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <header>
+    <div class="logo">Rawpixels</div>
+    <button class="menu-btn" id="menuToggle">MENU ☰</button>
+  </header>
+
+  <!-- Fullscreen Slide Menu Panel -->
+  <div class="fullscreen-menu" id="navMenu">
+    <ul class="menu-links">
+      <li><a href="#" class="menu-close-trigger">Home</a></li>
+      <li><a href="#portfolio-section" class="menu-close-trigger">Portfolio</a></li>
+      <li><a href="#about-section" class="menu-close-trigger">About</a></li>
+      <li><a href="#contact-section" class="menu-close-trigger">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- Intro / About -->
+  <section class="hero" id="about-section">
+    <h1>Hi, I am Sayan Majumder.</h1>
+    <span class="hero-subtitle">Fashion Photographer</span>
+    <p>I am a photographer driven by the belief that every moment carries a story worth preserving. Through light, emotion, and thoughtful composition, I create images that feel timeless, cinematic, and deeply personal. My work blends creativity with authenticity, transforming ordinary moments into visual narratives.</p>
+  </section>
+
+  <!-- Dynamic Magazine Lookbook Portfolio -->
+  <div class="portfolio-header" id="portfolio-section">
+    <h2>Portfolio</h2>
+    <div class="divider"></div>
+  </div>
+
+  <section class="gallery">
+    <div class="lookbook-grid">
+      
+      <!-- Lookbook Collection 1 -->
+      <div class="lookbook-card" data-page="page-pastel">
+        <div class="lookbook-img-wrapper">
+          <img src="2009F17C-A7D9-4E69-AB57-61459636DA69.jpeg" alt="The Pastel Chronicle Cover">
+        </div>
+        <div class="lookbook-meta">Portfolio / Lookbook / by @a_guy_with_lens</div>
+        <h3 class="lookbook-title">The Pastel Chronicle</h3>
+        <span class="lookbook-action">View Collection</span>
+      </div>
+
+      <!-- Lookbook Collection 2 -->
+      <div class="lookbook-card" data-page="page-editorial">
+        <div class="lookbook-img-wrapper">
+          <img src="2C5B835C-532F-4FCB-8B24-AD052ACC9F23.jpeg" alt="Editorial Fashion Cover">
+        </div>
+        <div class="lookbook-meta">Portfolio / Editorial / by @a_guy_with_lens</div>
+        <h3 class="lookbook-title">High Fashion Editorial</h3>
+        <span class="lookbook-action">View Collection</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= DYNAMIC LOOKBOOK SUB-PAGES ================= -->
+  
+  <!-- Sub-Page 1: The Pastel Chronicle -->
+  <div class="lookbook-page" id="page-pastel">
+    <div class="page-close">✕ Close</div>
+    <div class="page-header">
+      <h2>The Pastel Chronicle</h2>
+      <p>An exploration of subtle contrasts, muted tones, and soft natural lighting to compose minimal and poetic luxury fashion stories.</p>
+    </div>
+    <div class="sub-gallery-grid">
+      <img src="2009F17C-A7D9-4E69-AB57-61459636DA69.jpeg" class="wide" alt="Pastel 1">
+      <img src="3BDEDEF4-4C14-4BD4-81C6-D5E82EC8BE44.jpeg" alt="Pastel 2">
+      <img src="5A952932-6341-4B6D-A6D3-DABED1BAF324.jpeg" alt="Pastel 3">
+    </div>
+  </div>
+
+  <!-- Sub-Page 2: High Fashion Editorial -->
+  <div class="lookbook-page" id="page-editorial">
+    <div class="page-close">✕ Close</div>
+    <div class="page-header">
+      <h2>High Fashion Editorial</h2>
+      <p>Avant-garde frameworks meeting classic aesthetics. Sharp styling designed to command contemporary visual presence.</p>
+    </div>
+    <div class="sub-gallery-grid">
+      <img src="2C5B835C-532F-4FCB-8B24-AD052ACC9F23.jpeg" class="wide" alt="Editorial 1">
+      <img src="D17CFC4C-1CC7-4B3E-AFDF-420422FA3B01.jpeg" alt="Editorial 2">
+      <img src="E2F8E0D9-43BC-493C-8EE1-140C46A1CCD0.jpeg" alt="Editorial 3">
+    </div>
+  </div>
+
+  <!-- Finished Footer -->
+  <footer id="contact-section">
+    <div class="footer-section">
+      <h3>Contact</h3>
+      <a href="mailto:majumderatik45@gmail.com">majumderatik45@gmail.com</a>
+      <a href="tel:+918420656085">+91 84206 56085</a>
+    </div>
+    <div class="footer-section">
+      <h3>Office</h3>
+      <p>Barrackpore, West Bengal</p>
+      <p>India</p>
+    </div>
+    <div class="footer-section">
+      <h3>Social</h3>
+      <a href="https://instagram.com/a_guy_with_lens" target="_blank">@a_guy_with_lens</a>
+    </div>
+  </footer>
+
+  <!-- JavaScript Modules -->
+  <script>
+    // --- Preloader Script ---
+    window.addEventListener('DOMContentLoaded', () => {
+      const preloader = document.getElementById('preloader');
+      const hero = document.getElementById('about-section');
+      setTimeout(() => {
+        preloader.style.transform = 'translateY(-100%)';
+        hero.classList.add('loaded'); 
+      }, 2300);
+    });
+
+    // --- Fullscreen Navigation Menu ---
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    const menuCloseTriggers = document.querySelectorAll('.menu-close-trigger');
+
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('open');
+      if (navMenu.classList.contains('open')) {
+        menuToggle.innerHTML = "CLOSE ✕";
+      } else {
+        menuToggle.innerHTML = "MENU ☰";
+      }
+    });
+
+    menuCloseTriggers.forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('open');
+        menuToggle.innerHTML = "MENU ☰";
+      });
+    });
+
+    // --- Dynamic Lookbook Sub-Page Routing System ---
+    const lookbookCards = document.querySelectorAll('.lookbook-card');
+    const closeButtons = document.querySelectorAll('.page-close');
+
+    lookbookCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const pageId = card.getAttribute('data-page');
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+          targetPage.style.display = 'block';
+          document.body.classList.add('no-scroll');
+          setTimeout(() => {
+            targetPage.classList.add('active');
+          }, 20);
+        }
+      });
+    });
+
+    closeButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const activePage = btn.closest('.lookbook-page');
+        if (activePage) {
+          activePage.classList.remove('active');
+          document.body.classList.remove('no-scroll');
+          setTimeout(() => {
+            activePage.style.display = 'none';
+          }, 600);
+        }
+      });
+    });
+
+    // --- Elegant Scroll-Reveal Trigger (Fail-safe verified) ---
+    const observerOptions = { threshold: 0.05, rootMargin: "50px" };
+    const portfolioObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting || entry.boundingClientRect.top < window.innerHeight) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); 
+        }
+      });
+    }, observerOptions);
+
+    lookbookCards.forEach(card => {
+      // Force immediate display if observer delays
+      portfolioObserver.observe(card);
+      setTimeout(() => card.classList.add('visible'), 2500);
+    });
+  </script>
+
+</body>
+</html>
